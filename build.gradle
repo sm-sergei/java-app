@@ -9,7 +9,28 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-apply plagin: 'maven-publish'
+apply plugin: 'maven-publish'
+
+publishing {
+    publications{
+        maven(MavenPublication){
+            artifact("build/libs/java-app-$version" + ".jar"){
+                extension "jar"
+            }
+        }
+    }
+
+    repositories{
+        maven {
+            name 'nexus'
+            url "http://10.0.2.15:8081/repository/maven-snapshots/"
+            credentials {
+                username project.repoUser
+                password project.repoPassword
+            }
+        }
+    }
+}
 
 repositories {
     mavenCentral()
